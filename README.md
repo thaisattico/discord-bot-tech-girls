@@ -37,6 +37,6 @@ Guarda em qual servidor/canal o bot deve postar
 
 Colunas
 - id_canal - id gerado internamente para o canal de notícias
-- guild_id - id do servidor discord
-- channel_id - identificador do discord
+- id_guild - id do servidor discord
+- id_channel - identificador do discord
 - criado_em - data de criação do servidor
