@@ -2,11 +2,6 @@ import os
 
 import discord
 from dotenv import load_dotenv
-
-load_dotenv()
-
-import discord
-from dotenv import load_dotenv
 from discord.ext import commands
 
 load_dotenv()
@@ -16,13 +11,6 @@ intents = discord.Intents.default()
 intents.message_content = True
 
 client = discord.Client(intents=intents)
-
-@client.event
-async def on_ready():
-    print(f'Logado como: {client.user}')
-
-client.run(TOKEN)
-
 
 class TechNews(commands.Bot):
     def __init__(self):
