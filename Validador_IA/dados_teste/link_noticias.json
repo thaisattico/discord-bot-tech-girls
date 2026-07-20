@@ -1,0 +1,14 @@
+[ 
+    {
+    "assunto": "Lançamento de Nova IA",
+    "topicos": ["Inteligência Artificial", "Open Source"],
+    "tags": ["ia", "tecnologia", "python"],
+    "link": "https://www.tabnews.com.br/D0minuZ/treinei-um-modelo-local-de-344m-que-classifica-ncm-de-nota-fiscal-e-ele-sabe-dizer-nao-sei"
+    }, 
+    {
+    "assunto": "Notícia Nova",
+    "topicos": ["Programação", "Desenvolvimento"],
+    "tags": ["dev", "tecnologia"],
+    "link": "https://tabnews.com.br/noticia-nova-523"
+    }
+]

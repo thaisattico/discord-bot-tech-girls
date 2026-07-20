@@ -5,6 +5,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+import discord
+from dotenv import load_dotenv
+from discord.ext import commands
+
+load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
 
 intents = discord.Intents.default()
@@ -19,3 +24,20 @@ async def on_ready():
 client.run(TOKEN)
 
 
+class TechNews(commands.Bot):
+    def __init__(self):
+        super().__init__(command_prefix="/", intents=intents)
+
+    async def setup_hook(self):
+        await self.load_extension("cogs.tasks")
+        await self.load_extension("cogs.setup_channel")
+        await self.tree.sync()
+        print("Comandos sincronizados com sucesso")
+        
+bot = TechNews()
+
+@bot.event
+async def on_ready():
+    print(f'Logado como: {bot.user}')
+
+bot.run(TOKEN)

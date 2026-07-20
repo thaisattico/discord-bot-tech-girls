@@ -1,0 +1,49 @@
+[
+    {
+        "assunto": "Notícia Antiga",
+        "topicos": [
+            "Programação"
+        ],
+        "tags": [
+            "dev"
+        ],
+        "link": "https://tabnews.com.br/noticia-velha-999"
+    },
+    {
+        "assunto": "Notícia Nova",
+        "topicos": [
+            "Programação",
+            "Desenvolvimento"
+        ],
+        "tags": [
+            "dev",
+            "tecnologia"
+        ],
+        "link": "https://tabnews.com.br/noticia-nova-523"
+    },
+    {
+        "relevante": true,
+        "tags": [
+            "Inteligência Artificial",
+            "Machine Learning",
+            "Engenharia de Dados",
+            "PLN",
+            "Desenvolvimento",
+            "Python"
+        ],
+        "texto-resumo": "O artigo detalha o desenvolvimento de um modelo BERTimbau para classificar descrições de itens em códigos NCM, abordando desafios de integração ERP.\nExplora a criação de um dataset confiável a partir de dados públicos, estratégias de limpeza de rótulos e otimização de similaridade de embeddings.\nApresenta insights sobre a escolha de arquitetura, uso eficiente de recursos e lições de engenharia em projetos de ML no mundo real.",
+        "link-de-acesso": "https://www.tabnews.com.br/D0minuZ/treinei-um-modelo-local-de-344m-que-classifica-ncm-de-nota-fiscal-e-ele-sabe-dizer-nao-sei"
+    },
+    {
+        "relevante": true,
+        "tags": [
+            "Inteligência Artificial",
+            "Engenharia de Dados",
+            "Machine Learning",
+            "NLP",
+            "Otimização de Modelos"
+        ],
+        "texto-resumo": "Este artigo detalha a criação de um modelo de classificação offline para atribuir códigos NCM a descrições de itens, crucial para conformidade fiscal brasileira.\nExplora desafios de engenharia como a curadoria de um dataset ruidoso via consenso multi-emissor, otimização de similaridade de texto com mutual-kNN e considerações de LGPD.\nDemonstra uma solução robusta e econômica de ML, rodando localmente em CPU, enfatizando a importância da engenharia de dados e otimização para implantações em produção.",
+        "link-de-acesso": "https://www.tabnews.com.br/D0minuZ/treinei-um-modelo-local-de-344m-que-classifica-ncm-de-nota-fiscal-e-ele-sabe-dizer-nao-sei"
+    }
+]
