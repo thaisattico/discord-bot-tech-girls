@@ -1,27 +1,48 @@
 import discord
 
-def criar_embed_noticia(dados_json):
-    """Mapeia o dicionário retornado pelo Gemini para um Embed do Discord."""
 
-    resumo = dados_json.get("texto-resumo", "Sem resumo disponível.")
-    link = dados_json.get("link-de-acesso", "")
-    tags = dados_json.get("tags", [])
+class NoticiaView(discord.ui.View): # Botao de ver mais
 
-    tags_formatadas = " ".join([f"#{tag}" for tag in tags])
+    def __init__(self, url: str | None):
+        super().__init__()
+        if url:
+            self.add_item(
+                discord.ui.Button(
+                    label="Ver Mais",
+                    url=url,
+                    style=discord.ButtonStyle.link,
+                    emoji="🔗",
+                )
+            )
+
+
+def criar_embed_noticia(
+    noticia: dict,
+) -> tuple[discord.Embed, discord.ui.View]:
+    """Cria um Embed mapeando os campos do noticias_postadas.json."""
+
+    titulo = noticia.get("assunto") or noticia.get("titulo") or "Notícia Tech"
+
+    descricao = (
+        noticia.get("texto-resumo")
+        or noticia.get("resumo")
+        or "Sem resumo disponível."
+    )
+
+    url = noticia.get("link-de-acesso") or noticia.get("link") or None
 
     embed = discord.Embed(
-        title=" Nova Notícia de Tecnologia Aprovada!",
-        url=link,  # Torna o título clicável levando direto para a notícia
-        description=resumo,  # As 3 linhas de resumo fornecidas pela IA
-        color=0xFF69B4,  # Cor em Hexadecimal (Exemplo: Hot Pink)
+        title=titulo,
+        description=descricao,
+        url=url,
+        color=discord.Color.purple(),
     )
 
+    tags = noticia.get("tags") or noticia.get("topicos")
+    if tags and isinstance(tags, list):
+        tags_formatadas = " ".join([f"`#{tag}`" for tag in tags])
+        embed.add_field(name="Tags", value=tags_formatadas, inline=False)
 
-    embed.add_field(
-        name=" Assuntos", value=tags_formatadas, inline=False
-    )
+    embed.set_footer(text="Tech Girls • Noticias da Tecnologia")
 
-
-    embed.set_footer(text="Curadoria Inteligente • Tech Girls Bot")
-
-    return embed
+    return embed, NoticiaView(url=url)
