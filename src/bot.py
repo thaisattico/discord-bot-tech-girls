@@ -1,13 +1,13 @@
 import os
-
 import discord
 from dotenv import load_dotenv
 from discord.ext import commands
 
-GUILD_ID = discord.Object(id=1528106461362651338)
-
 load_dotenv()
 TOKEN = os.getenv("BOT_TOKEN")
+DEV_GUILD_ID= os.getenv("DEV_GUILD_ID")
+
+GUILD_ID = discord.Object(id=int(DEV_GUILD_ID)) if DEV_GUILD_ID else None
 
 intents = discord.Intents.default()
 intents.message_content = True
