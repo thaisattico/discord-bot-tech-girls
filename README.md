@@ -29,6 +29,7 @@ Colunas
 - titulo - título da notícia postada no TabNews
 - url - url da notícia
 - autor - identificação de quem postou a notícia no site
+- tag - classificador de assunto da notícia
 - postado_em - data em que a notícia foi postada no bot
 
 Tabela 2: canais_configurados
