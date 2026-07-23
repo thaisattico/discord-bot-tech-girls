@@ -35,6 +35,7 @@ Se a notícia for REJEITADA, retorne exatamente assim:
 Se a notícia for APROVADA, retorne exatamente com as chaves abaixo. Siga rigidamente as restrições de tamanho:
 {
     "relevante": true,
+    "titulo": "replicar titulo do texto"
     "tags": ["tag1", "tag2", "tag3"], 
     "texto-resumo": "Linha 1 resumida.\nLinha 2 resumida.\nLinha 3 resumida.",
     "link-de-acesso": "INSIRA_AQUI_A_URL_DA_NOTICIA"
