@@ -723,11 +723,11 @@ O termo API (Application Programming Interface) se refere a uma "ponte" de comun
 * **Para que serve:** Serve para criar comunicações automáticas entre diferentes sistemas.
 
 
-* ## Equipe e Responsabilidades
+ ### Equipe e Responsabilidades
 
 | Responsável | Função / Atribuição |
 | :--- | :--- |
-| **@keilaGuimaraes99** | Onboarding e roteiro de boas-vindas |
+| **@keilaGuimaraes9** | Onboarding e roteiro de boas-vindas |
 | **@greicesantellano** | Manuais de ferramentas |
 | **@larijbpg** | Documentação de dados e APIs |
 | **@luanapersouzza** | Definição de formato padrão e revisão final |
