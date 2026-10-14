@@ -126,7 +126,7 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 	"""Busca vagas tech na RapidAPI e faz 1 fallback de query caso venha sem vagas BR."""
 	if not RAPIDAPI_KEY:
 		print("[Jobs] RAPIDAPI_KEY nao configurada no arquivo .env")
-		return []
+		return
 
 	headers = {
 		"x-rapidapi-key": RAPIDAPI_KEY,
