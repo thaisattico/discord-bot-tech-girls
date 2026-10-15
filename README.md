@@ -63,7 +63,7 @@ Edite o arquivo `.env` e preencha **todas** as variáveis obrigatórias:
 |---|---|---|
 | `GEMINI_API_KEY` | Validação de notícias | Chave da API do Google Gemini |
 | `BOT_TOKEN` | Bot Discord completo | Token do bot gerado no Discord Developer Portal |
-| `DEV_GUILD_ID` | Bot Discord completo | ID do servidor Discord para sincronização de comandos |
+| `DEV_GUILD_ID` | Opcional | ID do servidor de teste para sincronização imediata dos comandos; sem ele, a sincronização é global |
 | `RAPIDAPI_KEY` | Busca de vagas | Chave de autenticação da RapidAPI |
 | `RAPIDAPI_HOST` | Busca de vagas | Host da API JSearch (`jsearch.p.rapidapi.com`) |
 | `RAPIDAPI_ENDPOINT` | Busca de vagas | Endpoint da API (`/search-v2`) |
@@ -73,7 +73,17 @@ Edite o arquivo `.env` e preencha **todas** as variáveis obrigatórias:
 | `JSEARCH_DATE_POSTED` | Busca de vagas | Filtro de data (ex: `all`) |
 | `JSEARCH_NUM_PAGES` | Busca de vagas | Número de páginas por requisição (ex: `1`) |
 
-> **Atenção:** sem o `BOT_TOKEN` e o `DEV_GUILD_ID` o bot se conectará mas não conseguirá sincronizar nenhum comando no servidor Discord.
+> **Atenção:** `BOT_TOKEN` é necessário para conectar o bot. Sem `DEV_GUILD_ID`, os comandos são sincronizados globalmente e podem demorar para aparecer.
+
+## Como hospedar no Discloud
+
+O arquivo [`discloud.config`](./discloud.config) já define o bot Python, o ponto de entrada (`src/bot.py`), a instalação das dependências e a memória inicial. Para publicar:
+
+1. No painel ou aplicativo da Discloud, crie uma aplicação do tipo **Bot** e envie um ZIP com os arquivos do projeto. O arquivo `discloud.config` deve ficar na raiz do ZIP, junto com `requirements.txt` e a pasta `src`.
+2. Configure as variáveis de ambiente do projeto com os valores de `.env.example`. Informe `BOT_TOKEN` para conectar o bot e `GEMINI_API_KEY` para validar notícias; `DEV_GUILD_ID` é opcional e acelera a sincronização dos comandos em um servidor de teste. Se a plataforma não oferecer configuração de variáveis, crie um arquivo `.env` na raiz da aplicação com esses valores.
+3. Inicie a aplicação e confira os logs no painel para confirmar que o bot conectou ao Discord.
+
+Não publique o token nem chaves no GitHub. O `.env` deve permanecer fora do repositório; se precisar enviá-lo como arquivo, inclua-o somente no upload privado para a Discloud. O valor inicial de memória é `300 MB` e pode ser ajustado em `discloud.config` conforme o plano e o consumo observado.
 
 ## Busca de vagas (RapidAPI + JSearch)
 
@@ -172,7 +182,7 @@ O container executa o arquivo `src/bot.py`, que realiza em sequência:
 1. Carrega as variáveis de ambiente do arquivo `.env`
 2. Inicializa as tabelas do banco de dados SQLite (`bot_teste.db`) caso ainda não existam
 3. Conecta os "cogs" de tarefas (`tasks`) e configuração de canal (`setup_channel`)
-4. Sincroniza os slash commands no servidor Discord configurado em `DEV_GUILD_ID`
+4. Sincroniza os slash commands no servidor de teste configurado em `DEV_GUILD_ID` ou globalmente, se essa variável não estiver definida
 5. Mantém o bot online e aguarda os horários programados para buscar e publicar notícias via TabNews + validação Gemini
 6. Executa o ciclo de busca de vagas via RapidAPI (JSearch) e envia para os canais configurados
 
