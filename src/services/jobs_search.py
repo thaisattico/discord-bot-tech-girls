@@ -126,7 +126,7 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 	"""Busca vagas tech na RapidAPI e faz 1 fallback de query caso venha sem vagas BR."""
 	if not RAPIDAPI_KEY:
 		print("[Jobs] RAPIDAPI_KEY nao configurada no arquivo .env")
-		return []
+		return
 
 	headers = {
 		"x-rapidapi-key": RAPIDAPI_KEY,
@@ -147,8 +147,8 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 					"country": JSEARCH_COUNTRY,
 					"date_posted": JSEARCH_DATE_POSTED,
 				}
-				# response = await client.get(JSEARCH_URL, headers=headers, params=params)
-				# response.raise_for_status()
+				response = await client.get(JSEARCH_URL, headers=headers, params=params)
+				response.raise_for_status()
 				print("[Jobs] Requisicao externa desativada temporariamente para testes locais.")
 				return []
 
