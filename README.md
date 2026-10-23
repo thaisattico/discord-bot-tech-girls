@@ -19,12 +19,17 @@ Python 3.14
 | API TabNews
 
 ## Modelagem do banco de dados
+
+O banco de dados utiliza duas tabelas para armazenar informações relacionadas ao funcionamento do bot: noticias_postadas, que registra as notícias publicadas e canais_configurados, que armazena os identificadores dos servidores e canais do Discord configurados para receber as publicações.
+
 <details>
 <summary>Visualizar diagrama do banco de dados</summary>
 
   ![Diagrama do banco de dados](imagens/diagrama.png)
 
 </details>
+
+---
 
 ## Como rodar com Docker
 
