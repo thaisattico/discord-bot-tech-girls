@@ -1,0 +1,128 @@
+[
+  {
+    "id": "345ee0ef-5bab-4399-8601-284fb0c61dd8",
+    "titulo": "Essa semana via uma postagem de uma mulher desabafando sobre desenvolvimento de sistemas",
+    "url": "https://www.tabnews.com.br/welovetech/essa-semana-via-uma-postagem-de-uma-mulher-desabafando-sobre-desenvolvimento-de-sistemas",
+    "esperado_relevante": true,
+    "motivo": "mulher na tecnologia / carreira"
+  },
+  {
+    "id": "975782d1-afe4-4ceb-902d-a3ec6c1338dd",
+    "titulo": "antd-img-crop: um force push trocou o main por um commit forjado que instala um stealer no npm run build",
+    "url": "https://www.tabnews.com.br/tifon/antd-img-crop-um-force-push-trocou-o-main-por-um-commit-forjado-que-instala-um-stealer-no-npm-run-build",
+    "esperado_relevante": true,
+    "motivo": "segurança: malware em pacote npm"
+  },
+  {
+    "id": "11a25203-3eb0-4a0e-ba61-dc25b2403ced",
+    "titulo": "CrowdSec no Linux: Como Substituir o Fail2ban por Defesa Colaborativa contra IPs Maliciosos",
+    "url": "https://www.tabnews.com.br/EvandroCarvalho/crowdsec-no-linux-como-substituir-o-fail2ban-por-defesa-colaborativa-contra-ips-maliciosos",
+    "esperado_relevante": true,
+    "motivo": "tutorial de segurança Linux"
+  },
+  {
+    "id": "c76f29df-1e09-4310-b906-a4d059eb5782",
+    "titulo": "O que é ComfyUI? Entenda workflows de geração de imagens com IA",
+    "url": "https://www.tabnews.com.br/anderslee/o-que-e-comfyui-entenda-workflows-de-geracao-de-imagens-com-ia",
+    "esperado_relevante": true,
+    "motivo": "IA prática"
+  },
+  {
+    "id": "43b5b30e-c2dd-4e44-855c-af19b1762f71",
+    "titulo": "10 Cursos Gratuitos de Tecnologia de Harvard para Impulsionar sua Carreira",
+    "url": "https://www.tabnews.com.br/IamThiagoIT/10-cursos-gratuitos-de-tecnologia-de-harvard-para-impulsionar-sua-carreira",
+    "esperado_relevante": true,
+    "motivo": "cursos e carreira"
+  },
+  {
+    "id": "929842da-c4d2-4a83-8ada-e86a4be068e7",
+    "titulo": "Somar e subtrair horas em JavaScript sem Date: o truque de converter tudo para segundos",
+    "url": "https://www.tabnews.com.br/versemedia/somar-e-subtrair-horas-em-javascript-sem-date-o-truque-de-converter-tudo-para-segundos",
+    "esperado_relevante": true,
+    "motivo": "tutorial JavaScript"
+  },
+  {
+    "id": "984ae828-71a1-4692-8126-a00271a69a78",
+    "titulo": "Node-RED sem adminAuth está sendo explorado com um único POST em /flows (CVE-2026-58115)",
+    "url": "https://www.tabnews.com.br/tifon/node-red-sem-adminauth-esta-sendo-explorado-com-um-unico-post-em-flows-cve-2026-58115",
+    "esperado_relevante": true,
+    "motivo": "segurança: CVE explorada"
+  },
+  {
+    "id": "9206c146-13db-4f57-b0d4-db7689ac1d8d",
+    "titulo": "Curso gratuito de Análise de Sentimentos em Computação | UFRGS",
+    "url": "https://www.tabnews.com.br/guiadeti/curso-gratuito-de-analise-de-sentimentos-em-computacao-ufrgs",
+    "esperado_relevante": true,
+    "motivo": "curso gratuito de dados"
+  },
+  {
+    "id": "9bca25c0-65ec-458c-aff6-42117f376f16",
+    "titulo": "Seu primeiro teste automatizado com Cypress, explicado pra quem nunca programou",
+    "url": "https://www.tabnews.com.br/ViniQA/seu-primeiro-teste-automatizado-com-cypress-explicado-pra-quem-nunca-programou",
+    "esperado_relevante": true,
+    "motivo": "tutorial de testes para iniciantes"
+  },
+  {
+    "id": "0964a3aa-9133-4aea-b315-222cd9f81a8d",
+    "titulo": "GraphRAG perdeu da busca vetorial: 71,7 vs 60,8%",
+    "url": "https://www.tabnews.com.br/kenimo49/graphrag-perdeu-da-busca-vetorial-71-7-vs-60-8-por-cento",
+    "esperado_relevante": true,
+    "motivo": "IA/dados com métrica"
+  },
+  {
+    "id": "c3b0d424-9f74-4a70-886e-074161f53bd1",
+    "titulo": "HashMaps - Entenda tudo sobre eles",
+    "url": "https://www.tabnews.com.br/Iago/hashmaps-entenda-tudo-sobre-eles",
+    "esperado_relevante": true,
+    "motivo": "conceito de estrutura de dados"
+  },
+  {
+    "id": "a892ab29-0444-4382-b4d0-43c9795deee9",
+    "titulo": "Índice chinês STAR50, focado em empresas de IA e semicondutores, despenca 40% e perde 480 bilhões de dólares em menos de quatro meses",
+    "url": "https://www.tabnews.com.br/NewsletterOficial/indice-chines-star50-focado-em-empresas-de-ia-e-semicondutores-despenca-40-por-cento-e-perde-480-bilhoes-de-dolares-em-menos-de-quatro-meses",
+    "esperado_relevante": false,
+    "motivo": "mercado financeiro, sem impacto técnico"
+  },
+  {
+    "id": "74dda86c-b4c3-40d2-b50d-afe07d52b858",
+    "titulo": "Intel esgota estoque de processadores para notebooks intermediários em meio à alta dos preços das memórias",
+    "url": "https://www.tabnews.com.br/NewsletterOficial/intel-esgota-estoque-de-processadores-para-notebooks-intermediarios-em-meio-a-alta-dos-precos-das-memorias",
+    "esperado_relevante": false,
+    "motivo": "estoque/preço de hardware"
+  },
+  {
+    "id": "00259e98-6109-456c-aa68-6d8776d0a845",
+    "titulo": "[meme] Software não está morto...",
+    "url": "https://www.tabnews.com.br/teknolista/meme-software-nao-esta-morto",
+    "esperado_relevante": false,
+    "motivo": "meme"
+  },
+  {
+    "id": "66381069-9dae-4af3-a503-cc018e72f81c",
+    "titulo": "frança vai começar a taxar cada GB consumido pelo usuário - e o brasil vai copiar",
+    "url": "https://www.tabnews.com.br/josehypado/franca-vai-comecar-a-taxar-cada-gb-consumido-pelo-usuario-e-o-brasil-vai-copiar",
+    "esperado_relevante": false,
+    "motivo": "debate de política/regulação (difícil)"
+  },
+  {
+    "id": "818ab25d-4069-405b-be95-f6055b17e081",
+    "titulo": "[Opinião Pública] - O que você pensam sobre o trabalho do Fábio Akita na comunidade?",
+    "url": "https://www.tabnews.com.br/elyosemite/opiniao-publica-o-que-voce-pensam-sobre-o-trabalho-do-fabio-akita-na-comunidade",
+    "esperado_relevante": false,
+    "motivo": "opinião sobre uma pessoa (difícil)"
+  },
+  {
+    "id": "e0f7b084-f422-40ed-86ac-50a5af4ca4f9",
+    "titulo": "Kinghost \"armadilhas\" no contrato? (coisas como, agente espião? proibido instalar programas? backup sem garantia?)",
+    "url": "https://www.tabnews.com.br/Wellington79/kinghost-armadilhas-no-contrato",
+    "esperado_relevante": false,
+    "motivo": "reclamação de contrato de empresa (difícil)"
+  },
+  {
+    "id": "4dd206f0-781b-4301-b297-480a9d315185",
+    "titulo": "Governo dos EUA classifica importação de robôs industriais como ameaça à segurança nacional",
+    "url": "https://www.tabnews.com.br/NewsletterOficial/governo-dos-eua-classifica-importacao-de-robos-industriais-como-ameaca-a-seguranca-nacional",
+    "esperado_relevante": false,
+    "motivo": "política comercial dos EUA (difícil)"
+  }
+]

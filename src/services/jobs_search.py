@@ -1,8 +1,13 @@
+import html
+import json
 import os
+import re
+from datetime import datetime, timezone
 from typing import Any
 from urllib.parse import urlparse
 
 import httpx
+from bs4 import BeautifulSoup
 from dotenv import load_dotenv
 
 # Carrega as variáveis do arquivo .env
@@ -74,13 +79,23 @@ def _normalizar_vaga(item: dict[str, Any]) -> dict[str, Any] | None:
 		or "Brasil"
 	)
 
+	# Outros sites com a mesma vaga, usados se o link principal nao abrir na verificacao
+	links_alternativos = []
+	for opcao in item.get("apply_options") or []:
+		link_opcao = (opcao.get("apply_link") or "").strip()
+		if link_opcao and link_opcao != link and link_opcao not in [l["link"] for l in links_alternativos]:
+			links_alternativos.append({"link": link_opcao, "fonte": (opcao.get("publisher") or "").strip() or _extrair_fonte({}, link_opcao)})
+
 	return {
 		"id_vaga": id_vaga,
 		"titulo": titulo,
+		"empresa": (item.get("employer_name") or "").strip(),
 		"link": link,
 		"localizacao": localizacao,
 		"fonte": _extrair_fonte(item, link),
 		"publicado_em": item.get("job_posted_at_datetime_utc") or "",
+		"descricao_api": item.get("job_description") or "",
+		"links_alternativos": links_alternativos,
 	}
 
 
@@ -126,7 +141,7 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 	"""Busca vagas tech na RapidAPI e faz 1 fallback de query caso venha sem vagas BR."""
 	if not RAPIDAPI_KEY:
 		print("[Jobs] RAPIDAPI_KEY nao configurada no arquivo .env")
-		return
+		return []
 
 	headers = {
 		"x-rapidapi-key": RAPIDAPI_KEY,
@@ -149,10 +164,7 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 				}
 				response = await client.get(JSEARCH_URL, headers=headers, params=params)
 				response.raise_for_status()
-				print("[Jobs] Requisicao externa desativada temporariamente para testes locais.")
-				return []
 
-				
 				payload = response.json()
 				dados = _extrair_jobs_do_payload(payload)
 				vagas = _filtrar_e_normalizar_vagas(dados, limit)
@@ -184,3 +196,98 @@ async def search_jobs(limit: int = 8) -> list[dict[str, Any]]:
 	except Exception as err:
 		print(f"[Jobs] Falha ao buscar vagas na RapidAPI: {err}")
 		return []
+
+
+# --- Verificacao da vaga no link antes da postagem ---
+
+NAVEGADOR_HEADERS = {
+	"User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0 Safari/537.36",
+	"Accept-Language": "pt-BR,pt;q=0.9,en;q=0.8",
+}
+# Frases completas: "Vaga expirada" sozinha aparece em formularios de denuncia de vagas abertas
+VAGA_ENCERRADA = re.compile(
+	r"no longer accepting applications|não está mais aceitando candidaturas|esta vaga (foi encerrada|expirou|não está mais disponível)"
+	r"|this job has expired|this job is no longer available",
+	re.IGNORECASE,
+)
+
+
+def _texto_limpo(html_ou_texto: str) -> str:
+	# Alguns sites (ex.: LinkedIn) mandam a descricao com o HTML escapado (&lt;p&gt;)
+	texto = BeautifulSoup(html.unescape(html_ou_texto or ""), "html.parser").get_text(" ")
+	return re.sub(r"\s+", " ", texto).strip()
+
+
+def _job_posting_da_pagina(soup: BeautifulSoup) -> dict[str, Any] | None:
+	"""Le o bloco JSON-LD padrao (schema.org/JobPosting) que a maioria dos sites de vaga publica."""
+	for script in soup.find_all("script", type="application/ld+json"):
+		try:
+			dados = json.loads(script.string or "")
+		except (json.JSONDecodeError, TypeError):
+			continue
+		candidatos = dados if isinstance(dados, list) else dados.get("@graph", [dados])
+		for item in candidatos:
+			if isinstance(item, dict) and item.get("@type") == "JobPosting":
+				return item
+	return None
+
+
+def _prazo_vencido(posting: dict[str, Any]) -> bool:
+	prazo = posting.get("validThrough")
+	if not prazo:
+		return False
+	try:
+		data = datetime.fromisoformat(str(prazo).replace("Z", "+00:00"))
+	except ValueError:
+		return False
+	if data.tzinfo is None:
+		data = data.replace(tzinfo=timezone.utc)
+	return data < datetime.now(timezone.utc)
+
+
+def _descricao_conferida(pagina: str, descricao_api: str) -> str | None:
+	"""Devolve a descricao confirmada na pagina, ou None se a pagina nao confirma a vaga aberta."""
+	soup = BeautifulSoup(pagina, "html.parser")
+	if VAGA_ENCERRADA.search(soup.get_text(" ")):
+		return None
+
+	posting = _job_posting_da_pagina(soup)
+	if posting:
+		if _prazo_vencido(posting):
+			return None
+		descricao = _texto_limpo(posting.get("description") or "")
+		if descricao:
+			return descricao
+
+	# Sem JSON-LD: aceita se o comeco da descricao da API aparece no texto da pagina
+	descricao_api = _texto_limpo(descricao_api)
+	trecho = descricao_api[:60]
+	if trecho and trecho in _texto_limpo(pagina):
+		return descricao_api
+	return None
+
+
+async def verificar_vaga(vaga: dict[str, Any]) -> dict[str, Any] | None:
+	"""Acessa o link da vaga (e os alternativos) e devolve a vaga com a descricao conferida.
+	Retorna None quando nenhum link abre com a vaga aberta: nesse caso ela nao deve ser postada."""
+	opcoes = [{"link": vaga.get("link"), "fonte": vaga.get("fonte")}] + list(vaga.get("links_alternativos") or [])
+
+	async with httpx.AsyncClient(timeout=httpx.Timeout(15.0), follow_redirects=True, headers=NAVEGADOR_HEADERS) as client:
+		for opcao in opcoes:
+			if not opcao.get("link"):
+				continue
+			try:
+				response = await client.get(opcao["link"])
+			except httpx.HTTPError as err:
+				print(f"[Jobs] Link da vaga nao abriu ({opcao['link']}): {err}")
+				continue
+			if response.status_code != 200:
+				print(f"[Jobs] Link da vaga respondeu {response.status_code}: {opcao['link']}")
+				continue
+
+			descricao = _descricao_conferida(response.text, vaga.get("descricao_api") or "")
+			if descricao:
+				return {**vaga, "link": opcao["link"], "fonte": opcao.get("fonte") or vaga.get("fonte"), "descricao": descricao}
+
+	print(f"[Jobs] Vaga nao confirmada em nenhum link, nao sera postada: {vaga.get('titulo')}")
+	return None

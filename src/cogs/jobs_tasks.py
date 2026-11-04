@@ -1,7 +1,7 @@
 import discord
 from discord.ext import commands, tasks
 from database.database import buscar_servidores
-from services.jobs_search import search_jobs
+from services.jobs_search import search_jobs, verificar_vaga
 from utils.embeds import criar_embed_vaga
 
 class JobsTasksBot(commands.Cog):
@@ -22,7 +22,7 @@ class JobsTasksBot(commands.Cog):
 		if self.envio_vagas_task.is_running():
 			self.envio_vagas_task.cancel()
 
-	@tasks.loop(minutes=1)  # Executa a requisicao de busca a cada 4 horas
+	@tasks.loop(hours=8)  # Executa a busca a cada 8 horas: no pior caso (com fallback) sao 180 requisicoes/mes, dentro das 200 do plano gratis da RapidAPI
 	async def busca_vagas_task(self):
 		canais = buscar_servidores("vagas")
 		if not canais:
@@ -63,7 +63,13 @@ class JobsTasksBot(commands.Cog):
 		if not canais:
 			return
 
-		vaga = self.fila_vagas.pop(0)
+		# Acessa o link antes de postar; vagas encerradas ou sem descricao conferida sao puladas
+		vaga = None
+		while self.fila_vagas and vaga is None:
+			vaga = await verificar_vaga(self.fila_vagas.pop(0))
+		if vaga is None:
+			return
+
 		embed, view = criar_embed_vaga(vaga)
 
 		enviados = 0

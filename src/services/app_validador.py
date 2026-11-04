@@ -241,7 +241,8 @@ async def enviar_para_ia_validar(url_noticia: str) -> Optional[Dict[str, Any]]:
         return _retorno_invalido("Chave de API do Gemini (GEMINI_API_KEY) não configurada.")
 
     # 5. Chamada à API do Gemini usando o SDK google-genai (com fallback de modelos)
-    modelos_candidatos = ["gemini-3.6-flash", "gemini-2.0-flash", "gemini-3.5-flash"]
+    # flash-lite primeiro: no plano gratis os modelos flash so aceitam 20 pedidos por dia (ver TESTES.md)
+    modelos_candidatos = ["gemini-3.5-flash-lite", "gemini-3.6-flash", "gemini-3.5-flash"]
     client = genai.Client(api_key=api_key)
     conteudo_prompt = f"{prompt_sistema}\n\nConteúdo da Notícia:\n{texto_noticia}"
 
