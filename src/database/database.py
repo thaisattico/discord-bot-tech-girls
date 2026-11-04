@@ -64,7 +64,13 @@ def buscar_servidores(tipo):
 def inserir_canal_servidor(id_guild, id_channel, tipo, criado_em):
     conexao = sqlite3.connect("bot_teste.db")
     cursor = conexao.cursor()
-    cursor.execute("INSERT INTO canais_configurados(id_guild, id_channel, tipo, criado_em) VALUES (?, ?, ?, ?)", (id_guild, id_channel, tipo, criado_em))
+    #Se o servidor ja tem canal desse tipo, troca pelo canal novo em vez de dar erro de duplicidade
+    cursor.execute(
+        "INSERT INTO canais_configurados(id_guild, id_channel, tipo, criado_em) VALUES (?, ?, ?, ?) "
+        "ON CONFLICT(id_guild, tipo) DO UPDATE SET id_channel = excluded.id_channel, criado_em = excluded.criado_em",
+        (id_guild, id_channel, tipo, criado_em),
+    )
     conexao.commit()
     id_gerado = cursor.lastrowid
+    conexao.close()
     return ("canal inserido", id_gerado)

@@ -65,16 +65,33 @@ class VagaView(discord.ui.View):
 		)
 
 
+def _resumir_descricao(texto: str, limite: int = 600) -> str:
+	"""Corta a descricao no fim da ultima frase que cabe no limite."""
+	texto = (texto or "").strip()
+	if len(texto) <= limite:
+		return texto
+	corte = texto[: limite - 1]
+	fim_frase = corte.rfind(". ")
+	if fim_frase > limite // 2:
+		return corte[: fim_frase + 1]
+	return corte.rsplit(" ", 1)[0] + "…"
+
+
 def criar_embed_vaga(vaga: dict) -> tuple[discord.Embed, discord.ui.View]:
-	titulo = vaga.get("titulo") or "Vaga Tech"
+	titulo = (vaga.get("titulo") or "Vaga Tech")[:256]
 	url = vaga.get("link") or ""
 	fonte = vaga.get("fonte")
 
 	embed = discord.Embed(
 		title=titulo,
 		url=url,
+		description=_resumir_descricao(vaga.get("descricao") or ""),
 		color=discord.Color.blue(),
 	)
+	if vaga.get("empresa"):
+		embed.add_field(name="Empresa", value=vaga["empresa"][:1024], inline=True)
+	if vaga.get("localizacao"):
+		embed.add_field(name="Local", value=str(vaga["localizacao"])[:1024], inline=True)
 	embed.set_footer(text="Tech Girls • Vagas de Tecnologia")
 
 	return embed, VagaView(url=url, fonte=fonte)

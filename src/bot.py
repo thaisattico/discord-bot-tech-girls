@@ -24,6 +24,7 @@ class TechNews(commands.Bot):
         print("Tasks de automatizacao conectada com sucesso!")
         
         await self.load_extension("cogs.setup_news")
+        await self.load_extension("cogs.jobs_tasks") #Tasks de busca e envio das vagas, iniciadas pelo /setupjobs
         await self.load_extension("cogs.setup_jobs")
         # await self.load_extension("cogs.teste_embed")
         
@@ -41,4 +42,5 @@ bot = TechNews()
 async def on_ready():
     print(f'Logado como: {bot.user}')
 
-bot.run(TOKEN)
+if __name__ == "__main__": #Permite importar o bot nos testes sem conectar ao Discord
+    bot.run(TOKEN)

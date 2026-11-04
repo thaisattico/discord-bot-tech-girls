@@ -10,6 +10,7 @@ class TasksBot(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.fila_noticias = []
+        self.noticias_avaliadas = set() #Noticias ja enviadas para a IA, aprovadas ou nao, para nao gastar a cota do Gemini de novo
         # self.search_task.start() sera inicializada pelo /setupnews
 
     def cog_unload(self):
@@ -29,9 +30,13 @@ class TasksBot(commands.Cog):
         for noticia in reversed(noticias):
             if buscar_noticias(noticia['id_noticia']): #Busca as noticias no banco para ver se existem, se sim, pula
                 continue
-            
+
+            if noticia['id_noticia'] in self.noticias_avaliadas: #Ja passou pela IA em um ciclo anterior (descartada ou na fila)
+                continue
+
             # Envia para a IA
             resultado_ia = await enviar_para_ia_validar(noticia['url'])
+            self.noticias_avaliadas.add(noticia['id_noticia'])
             #resultado_ia = await enviar_para_ia_validar(noticia) para retornar o dicionario inteiro com o conteudo + titulo,etc
             
             await asyncio.sleep(5) #Pausa para nao estourar o limite de requisicoes

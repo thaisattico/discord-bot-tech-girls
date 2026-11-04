@@ -216,3 +216,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Avaliacao do agente de IA: texto de noticias de outros autores e resultados brutos
+tests/data/.cache_noticias/
+tests/data/.resultado_avaliacao_ia.json
